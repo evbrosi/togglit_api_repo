@@ -1,13 +1,13 @@
-class OrganizationController < ApplicationController
+class LocationsController < ApplicationController
 
-  def show
+  def index
     organization = Organization.find_by(togglit_id: params[:togglit_id])
 
     if organization.nil?
       render json:{ error: "Organization was not found"},
              status: 404
     else
-      render json: organization.as_json(include:[:locations, :employees])
+      render json: organization.locations
     end
   end
 end
