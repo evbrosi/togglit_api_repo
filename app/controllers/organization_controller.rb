@@ -7,7 +7,7 @@ class OrganizationController < ApplicationController
       render json:{ error: "Organization was not found"},
              status: 404
     else
-      render json: organization.as_json(include:[:locations, :employees])
+      render json: organization.as_json({include:[:locations, :employees]})
     end
   end
 end

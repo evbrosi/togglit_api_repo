@@ -1,4 +1,5 @@
 class EmployeesController < ApplicationController
+
   def index
     organization = Organization.find_by(togglit_id: params[:togglit_id])
 
