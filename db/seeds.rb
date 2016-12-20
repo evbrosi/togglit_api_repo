@@ -1,15 +1,16 @@
 require 'ffaker'
 
 kzoo = Organization.create(
-                              name: "KZOO",
-                              togglit_id: "KZOO"
+    name: "KZOO",
+    togglit_id: "KZOO"
 )
 
-employees = 100.times do
-  Employee.create(
+100.times do
+  kzoo.employees << Employee.create(
     "first_name": FFaker::Name.first_name,
     "last_name": FFaker::Name.last_name,
     "title": FFaker::Job.title,
+    "picture_url": FFaker::Avatar.image,
     "email": FFaker::Internet.email,
     "organization_id": 1
   ) end
@@ -86,4 +87,64 @@ kzoo.locations = Location.create([{
     "organization_id": 1
                                   }])
 
+k911 = Organization.create(
+    name: "K911",
+    togglit_id: "K911"
+)
+
+100.times do
+  k911.employees << Employee.create(
+      "first_name": FFaker::Name.first_name,
+      "last_name": FFaker::Name.last_name,
+      "title": FFaker::Job.title,
+      "picture_url": FFaker::Avatar.image,
+      "email": FFaker::Internet.email,
+      "organization_id": 1
+  ) end
+
+k911.locations = Location.create([{
+    "title": "Prestonsburg Animal Shelter",
+    "description": "Animal Shelter",
+    "target_page": "http://www.animalshelter.org/",
+    "latitude": 37.662088,
+    "longitude": -82.795893,
+    "organization_id": 2
+                                  },{
+    "title": "Johnson County Animal Shelter",
+    "description": "Johnson County's only animal rescue.",
+    "target_page": "http://www.wowanimalshelter.org/",
+    "latitude": 37.786206,
+    "longitude": -82.793494,
+    "organization_id": 2
+                                  },{
+    "title": "Pike County Animal Shelter",
+    "description": "Pike county’s animal rescue.",
+    "target_page": "http://www.pikecountyanimalshelter.org/",
+    "latitude": 37.501605,
+    "longitude": -82.549748,
+    "organization_id": 2
+                                  },{
+    "title": "Hermes Exotics Bengal Sanctuary",
+    "description": "Rescue for rare cats.",
+    "target_page": "http://tlgoggans.wixsite.com/hermes-exotics",
+    "latitude": 37.829887,
+    "longitude": -82.886598,
+    "organization_id": 2
+                                  },{
+    "title": "Pike County Humane Society",
+    "description": "Pike County’s Humane Society.",
+    "target_page": "",
+    "latitude": 37.474298,
+    "longitude": -82.552234,
+    "organization_id": 2
+                                  },{
+    "title": "Lawrence County Humane Society",
+    "description": "Pike County’s Humane Society.",
+    "target_page": "http://www.lawrencecokyanimalshelter.com/",
+    "latitude": 38.114254,
+    "longitude": -82.603212,
+    "organization_id": 2
+                                  }])
+
+k911.save
 kzoo.save
