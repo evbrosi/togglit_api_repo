@@ -1,4 +1,5 @@
 class LocationsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
 
   def index
     organization = Organization.find_by(togglit_id: params[:togglit_id])
@@ -12,38 +13,42 @@ class LocationsController < ApplicationController
     end
   end
 
-  # GET /todo_lists/1
-  # GET /todo_lists/1.json
+  # GET
   def show
   end
 
-  # GET /todo_lists/new
+  # GET
   def new
     @locations = Location.new
   end
 
-  # GET /todo_lists/1/edit
+  #get
   def edit
   end
 
-  # POST /todo_lists
-  # POST /todo_lists.json
+  #post
   def create
-    @locations = Location.new(location_params)
+    @organization = Organization.find_by(togglit_id: params[:togglit_id])
+    @location = Location.new(location_params)
+    @location.organization = @organization
 
     respond_to do |format|
-      if @locations.save
-        format.html { redirect_to @locations, notice: 'Todo list was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @locations }
+      if @location.save
+        @organization.locations << @location
+
+        if @organization.save
+          # format.html { redirect_to @location, notice: 'Todo list was successfully created.' }
+          format.json { render json: @location, status: :created }
+        else
+          format.json { render json: @organization.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render action: 'new' }
-        format.json { render json: @locations.errors, status: :unprocessable_entity }
+        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /todo_lists/1
-  # PATCH/PUT /todo_lists/1.json
+  # PATCH/PUT
   def update
     respond_to do |format|
       if @locations.update(location_params)
@@ -56,8 +61,7 @@ class LocationsController < ApplicationController
     end
   end
 
-  # DELETE /todo_lists/1
-  # DELETE /todo_lists/1.json
+  # DELETE
   def destroy
     @locations.destroy
     respond_to do |format|
@@ -74,6 +78,6 @@ class LocationsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def location_params
-    params.permit(:title, :description, :target_page, :latitude, :longitude, :organization_id)
+    params.permit(:title, :description, :target_page, :latitude, :longitude)
   end
 end
